@@ -1,0 +1,311 @@
+/* ==========================================================================
+   Amaya — interior page redesign patch
+   Pages: /blogs, /media, /founders
+
+   Values here are taken verbatim from the standalone mockups in redesign/
+   (blogs.html, media.html, founders.html) — the exact source of truth for
+   spacing/typography on these pages. Additive: nothing in the existing
+   stylesheet is edited or removed. Founders-specific classes (.fd-*) are
+   updated directly in app/founders/founders.css instead of here, since they
+   already exist there under the same names.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. PAGE HERO — .phero (shared by /blogs, /media, /founders)
+   -------------------------------------------------------------------------- */
+
+.phero {
+  position: relative;
+  min-height: clamp(360px, 42vh, 480px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background: var(--navy-deep);
+}
+.phero-media { position: absolute; inset: 0; z-index: 0; }
+.phero-media img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); }
+.phero::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, #1d2f3fcc 0%, #1d2f3f52 34%, #1d2f3f8c 74%, #1d2f3fe6 100%);
+}
+.phero-inner {
+  position: relative; z-index: 2; width: 100%;
+  padding-top: clamp(96px, 14vh, 130px);
+  padding-bottom: clamp(56px, 9vh, 104px);
+}
+.phero-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: var(--fs-h1);
+  line-height: 1.02;
+  color: var(--white);
+  letter-spacing: -.012em;
+  max-width: 16ch;
+}
+.phero-title em { font-style: italic; color: var(--limestone); }
+.phero-sub {
+  margin-top: var(--s8);
+  max-width: 52ch;
+  font-size: var(--fs-body-lg);
+  line-height: 1.8;
+  color: #e7d8c6cc;
+}
+.phero-strip {
+  position: relative; z-index: 2;
+  display: flex; flex-wrap: wrap;
+  border-top: 1px solid #e7d8c633;
+  background: #1d2f3f4d;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.phero-strip-item { flex: 1 1 180px; padding: 22px var(--gutter); border-left: 1px solid #e7d8c621; }
+.phero-strip-item:first-child { border-left: 0; }
+.phero-strip-label {
+  display: block; margin-bottom: 6px;
+  font-size: .5938rem; font-weight: 600; letter-spacing: .3em;
+  text-transform: uppercase; color: #e7d8c68f;
+}
+.phero-strip-value { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--white); }
+
+@media (max-width: 860px) {
+  .phero-strip-item { flex-basis: 50%; border-left: 0; border-top: 1px solid #e7d8c621; }
+}
+@media (max-width: 600px) {
+  .phero-strip-item { flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .phero-media img { transform: none; }
+}
+
+
+/* --------------------------------------------------------------------------
+   2. SHARED EDITORIAL PRIMITIVES — .meta, .card-media, .rule
+   -------------------------------------------------------------------------- */
+
+.meta {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: .625rem; font-weight: 600; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--brass);
+}
+.meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--divider-strong); flex-shrink: 0; }
+.meta-date { color: var(--text-muted); font-weight: 400; letter-spacing: .16em; }
+
+.eyebrow--light { color: #e7d8c6d9; }
+.eyebrow--light::before { background: #e7d8c699; }
+
+.card-media { position: relative; overflow: hidden; background: var(--surface-alt); display: block; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease-out); }
+.card-media::after { content: ""; position: absolute; inset: 0; background: #1d2f3f00; transition: background .5s var(--ease-out); }
+a.card-media:hover img, article:hover .card-media img { transform: scale(1.045); }
+article:hover .card-media::after { background: #1d2f3f14; }
+@media (prefers-reduced-motion: reduce) {
+  .card-media img { transition: none; }
+}
+
+.rule { height: 1px; background: var(--divider); border: 0; margin: 0; }
+
+.section--tight { padding-block: clamp(56px, 7vw, 96px); }
+.section--surface { background: var(--surface); }
+.section--alt { background: var(--surface-alt); }
+.section--navy { background: var(--navy); color: var(--limestone); }
+
+.on-dark .h1, .on-dark .h2, .on-dark .h3 { color: var(--white); }
+.on-dark .h1 em, .on-dark .h2 em { color: var(--limestone); }
+.on-dark .lead { color: #e7d8c6cc; }
+.on-dark .btn-text { color: var(--limestone); }
+
+
+/* --------------------------------------------------------------------------
+   3. TOPIC FILTER (/blogs)
+   -------------------------------------------------------------------------- */
+
+.topics-wrap {
+  position: sticky; top: 76px; z-index: 40;
+  background: var(--white);
+  border-bottom: 1px solid var(--divider);
+}
+.topics { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 30px); padding-top: 22px; }
+.topics-label {
+  flex-shrink: 0;
+  padding: 2px clamp(16px, 2vw, 30px) 0 0;
+  border-right: 1px solid var(--divider);
+  font-size: .5938rem; font-weight: 600; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.topics-list {
+  position: relative; display: flex;
+  gap: clamp(18px, 2.6vw, 34px);
+  padding-bottom: 20px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.topics-list::-webkit-scrollbar { display: none; }
+.topic {
+  flex-shrink: 0; padding: 0; border: 0; background: none; cursor: pointer;
+  white-space: nowrap; font-family: var(--sans);
+  font-size: .6875rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color .24s var(--ease-ui);
+}
+.topic:hover { color: var(--navy); }
+.topic.is-active { color: var(--navy); }
+.topics-indicator {
+  position: absolute; left: 0; bottom: 14px;
+  width: 0; height: 1px; background: var(--brass); pointer-events: none;
+  transition: transform .28s var(--ease-out), width .28s var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .topics-indicator { transition: none; }
+}
+
+
+/* --------------------------------------------------------------------------
+   4. BLOG FEATURE + INDEX (/blogs) — exact mockup values
+   -------------------------------------------------------------------------- */
+
+.feature { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(28px, 4.5vw, 72px); align-items: center; }
+.feature-media { aspect-ratio: 4 / 3; }
+.feature-index {
+  display: block; margin-bottom: var(--s6);
+  font-family: var(--serif); font-size: 2.4rem; font-weight: 300; line-height: 1;
+  color: var(--divider-strong);
+}
+.feature-title {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(2rem, 3.4vw, 3rem); line-height: 1.08; letter-spacing: -.012em;
+  color: var(--text-head); margin-top: var(--s4);
+}
+.feature-title a { transition: color .24s var(--ease-ui); }
+.feature-title a:hover { color: var(--brass); }
+.feature-excerpt { margin-top: var(--s6); font-size: var(--fs-body-lg); line-height: 1.85; color: var(--text-mid); max-width: 46ch; }
+.feature-cta { margin-top: var(--s8); }
+
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(32px, 3.6vw, 56px) clamp(24px, 2.6vw, 40px); align-items: stretch; }
+.blog-card { display: flex; flex-direction: column; height: 100%; }
+.blog-card[hidden] { display: none; }
+.blog-card-media { aspect-ratio: 3 / 2; }
+.blog-card-body { display: flex; flex-direction: column; flex: 1; padding-top: var(--s6); }
+.blog-card-rule { display: block; width: 48px; height: 1px; background: var(--brass); margin-bottom: var(--s4); }
+.blog-card-title {
+  margin-top: var(--s3);
+  font-family: var(--serif); font-weight: 400; font-size: 1.45rem; line-height: 1.24;
+  color: var(--text-head);
+  min-height: calc(2 * 1.24em);
+}
+.blog-card-title a { transition: color .24s var(--ease-ui); }
+.blog-card:hover .blog-card-title a { color: var(--brass); }
+.blog-card-excerpt { margin-top: var(--s3); font-size: .9375rem; line-height: 1.8; color: var(--text-mid); min-height: calc(3 * 1.8em); }
+.blog-card-link { margin-top: auto; padding-top: var(--s6); align-self: flex-start; }
+
+.filter-empty { padding: var(--s20) 0; text-align: center; font-family: var(--serif); font-size: 1.5rem; color: var(--text-muted); }
+
+@media (max-width: 900px) {
+  .feature { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 620px) {
+  .blog-grid { grid-template-columns: 1fr; }
+  .topics-wrap { top: 0; }
+  .blog-card-title, .blog-card-excerpt { min-height: 0; }
+}
+
+
+/* --------------------------------------------------------------------------
+   5. PRESS (/media) — lead story, image pair, typographic index
+   -------------------------------------------------------------------------- */
+
+.press-strip { border-bottom: 1px solid var(--divider); background: var(--surface); }
+.press-strip-inner { display: flex; align-items: center; flex-wrap: wrap; gap: 16px clamp(20px, 2.6vw, 40px); padding-block: clamp(24px, 3vw, 36px); }
+.press-strip-label { flex-shrink: 0; font-size: .5938rem; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--text-muted); }
+.press-name { font-family: var(--serif); font-size: 1.0625rem; font-weight: 400; letter-spacing: .04em; color: var(--text-mid); white-space: nowrap; }
+
+:lang(te) { font-family: var(--font-telugu), var(--serif); }
+
+.lead-story { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px, 4.5vw, 72px); align-items: center; }
+.lead-media { aspect-ratio: 4 / 3; border-radius: 2px; }
+.lead-title {
+  margin-top: var(--s4);
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem); line-height: 1.14; letter-spacing: -.01em;
+  color: var(--text-head);
+}
+.lead-title a { transition: color .24s var(--ease-ui); }
+.lead-title a:hover { color: var(--brass); }
+.lead-title:lang(te) { font-weight: 400; font-size: clamp(1.55rem, 2.5vw, 2.15rem); line-height: 1.42; letter-spacing: 0; }
+.lead-gloss {
+  margin-top: var(--s4); padding-left: 16px;
+  border-left: 1px solid var(--divider-strong);
+  font-family: var(--serif); font-style: italic; font-size: 1.0625rem; line-height: 1.6;
+  color: var(--text-muted);
+}
+.lead-excerpt { margin-top: var(--s6); font-size: var(--fs-body-lg); line-height: 1.9; color: var(--text-mid); max-width: 48ch; }
+.lead-excerpt:lang(te) { line-height: 2; }
+.lead-cta { margin-top: var(--s8); }
+
+.pair { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(28px, 3.4vw, 56px); }
+.pair-card { display: flex; flex-direction: column; }
+.pair-media { aspect-ratio: 16 / 10; border-radius: 2px; }
+.pair-body { padding-top: var(--s6); }
+.pair-title { margin-top: var(--s3); font-family: var(--serif); font-weight: 400; font-size: clamp(1.35rem, 2vw, 1.7rem); line-height: 1.24; color: var(--text-head); }
+.pair-card:hover .pair-title a { color: var(--brass); }
+.pair-title a { transition: color .24s var(--ease-ui); }
+.pair-excerpt { margin-top: var(--s3); font-size: .9375rem; line-height: 1.85; color: var(--text-mid); }
+.pair-link { margin-top: var(--s6); }
+
+.index-list { border-top: 1px solid var(--divider); }
+.index-row { display: block; border-bottom: 1px solid var(--divider); transition: background .24s var(--ease-ui); }
+.index-row:hover { background: var(--surface); }
+.index-inner {
+  display: grid; grid-template-columns: 210px 1fr 40px; align-items: baseline;
+  gap: clamp(16px, 2.4vw, 40px); padding: clamp(24px, 2.6vw, 34px) clamp(12px, 1.4vw, 20px);
+}
+.index-source { display: flex; flex-direction: column; gap: 6px; }
+.index-pub { font-size: .6875rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); }
+.index-date { font-size: .75rem; font-weight: 300; letter-spacing: .1em; color: var(--text-muted); }
+.index-headline { font-family: var(--serif); font-weight: 400; font-size: clamp(1.2rem, 1.85vw, 1.55rem); line-height: 1.3; color: var(--text-head); transition: color .24s var(--ease-ui); }
+.index-row:hover .index-headline { color: var(--brass); }
+.index-excerpt { margin-top: 10px; font-size: .9063rem; line-height: 1.8; color: var(--text-mid); max-width: 62ch; }
+.index-arrow { justify-self: end; align-self: center; color: var(--divider-strong); transition: transform .24s var(--ease-ui), color .24s var(--ease-ui); }
+.index-row:hover .index-arrow { transform: translateX(5px); color: var(--brass); }
+@media (prefers-reduced-motion: reduce) {
+  .index-row, .index-headline, .index-arrow { transition: none; }
+}
+
+.enquiries { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 64px); align-items: center; padding: clamp(32px, 4vw, 56px); background: var(--surface); border-top: 2px solid var(--brass); }
+.enquiries h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(1.6rem, 2.6vw, 2.1rem); line-height: 1.15; color: var(--text-head); }
+.enquiries h3 em { font-style: italic; color: var(--brass); }
+.enquiries p { margin-top: var(--s4); font-size: 1rem; line-height: 1.85; color: var(--text-mid); max-width: 44ch; }
+.enquiries-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-self: end; }
+
+@media (max-width: 900px) {
+  .lead-story { grid-template-columns: 1fr; }
+  .pair { grid-template-columns: 1fr; }
+  .index-inner { grid-template-columns: 1fr 32px; }
+  .index-source { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 12px; }
+  .enquiries { grid-template-columns: 1fr; }
+  .enquiries-actions { justify-self: start; }
+}
+
+
+/* --------------------------------------------------------------------------
+   6. VISIT BAND — closing CTA shared by /blogs, /media, /founders
+   Named .visit-band (not .visit) so it doesn't collide with the homepage's
+   own #visit section, which has different markup/centered layout.
+   -------------------------------------------------------------------------- */
+
+.visit-band { position: relative; overflow: hidden; background: var(--navy-deep); color: var(--limestone); padding-block: clamp(80px, 11vw, 148px); }
+.visit-band-media { position: absolute; inset: 0; z-index: 0; opacity: .32; }
+.visit-band-media img { width: 100%; height: 100%; object-fit: cover; }
+.visit-band .container { position: relative; z-index: 2; }
+.visit-band-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: clamp(32px, 6vw, 88px); align-items: end; }
+.visit-band-hours { border-left: 1px solid #e7d8c63d; padding-left: var(--s8); }
+.visit-band-hours dt { font-size: .5938rem; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: #e7d8c68f; }
+.visit-band-hours dd { margin: 6px 0 22px; font-family: var(--serif); font-size: 1.2rem; color: var(--white); line-height: 1.4; }
+.visit-band-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: var(--s10); }
+
+@media (max-width: 860px) {
+  .visit-band-grid { grid-template-columns: 1fr; align-items: start; }
+  .visit-band-hours { border-left: 0; border-top: 1px solid #e7d8c63d; padding-left: 0; padding-top: var(--s8); }
+}

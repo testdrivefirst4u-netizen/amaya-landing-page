@@ -1,0 +1,380 @@
+/* ============================================================
+   AMAYA — Design System
+   Source: Amaya Brand Guidelines v3
+   ============================================================ */
+
+:root {
+  /* Palette */
+  --navy: #23384a;
+  --navy-deep: #1d2f3f;
+  --limestone: #e7d8c6;
+  --stone: #d8cec3;
+  --mist: #ece8e1;
+  --sage: #7c8b78;
+  --brass: #a9825a;
+  --charcoal: #2f2925;
+
+  --surface: #f4f0eb;
+  --surface-alt: #ede8e0;
+  --white: #fdfcfa;
+
+  --text-head: #23384a;
+  --text-body: #3d3530;
+  --text-mid: #6b5f57;
+  --text-muted: #9e948d;
+
+  --divider: #d2c9bf;
+  --divider-strong: #b8afa7;
+
+  /* Type */
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Jost", system-ui, sans-serif;
+
+  /* Fluid type scale */
+  --fs-display: clamp(3.2rem, 7.8vw, 6.75rem);
+  --fs-h1: clamp(3rem, 6.9vw, 5.75rem);
+  --fs-h2: clamp(2.35rem, 4.4vw, 3.6rem);
+  --fs-h3: clamp(1.4rem, 2.2vw, 1.75rem);
+  --fs-body-lg: clamp(1.0625rem, 1.35vw, 1.1875rem);
+  --fs-body: 1rem;
+
+  /* Spacing (8px grid) */
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s6: 24px;
+  --s8: 32px;
+  --s10: 40px;
+  --s12: 48px;
+  --s16: 64px;
+  --s20: 80px;
+  --s24: 96px;
+  --s32: 128px;
+
+  --container: 1240px;
+  --gutter: clamp(24px, 5vw, 64px);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 1s;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  font-family: var(--sans);
+  font-weight: 300;
+  background: var(--white);
+  color: var(--text-body);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--navy);
+  color: var(--limestone);
+}
+
+/* ============================================================
+   PRIMITIVES
+   ============================================================ */
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: clamp(88px, 12vw, 152px);
+  position: relative;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: var(--s6);
+}
+.eyebrow::before {
+  content: "";
+  width: 40px;
+  height: 1px;
+  background: var(--brass);
+  flex-shrink: 0;
+}
+.eyebrow--bare::before {
+  display: none;
+}
+
+.h-display {
+  font-family: var(--serif);
+  font-size: var(--fs-display);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: var(--text-head);
+}
+
+.h2 {
+  font-family: var(--serif);
+  font-size: var(--fs-h2);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--text-head);
+}
+.h2 em,
+.h-display em {
+  font-style: italic;
+}
+.h2 em {
+  color: var(--brass);
+}
+
+.h3 {
+  font-family: var(--serif);
+  font-size: var(--fs-h3);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--text-head);
+}
+
+.lead {
+  font-size: var(--fs-body-lg);
+  font-weight: 300;
+  color: var(--text-mid);
+  line-height: 1.8;
+  max-width: 580px;
+}
+
+.rule-brass {
+  width: 48px;
+  height: 1px;
+  background: var(--brass);
+  border: none;
+  margin: var(--s8) 0;
+}
+
+/* ============================================================
+   BUTTONS  (brand spec: square, Jost 500, letter-spacing .16em)
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 17px 36px;
+  border-radius: 0;
+  border: 1px solid transparent;
+  transition:
+    background 0.45s var(--ease-out),
+    color 0.45s var(--ease-out),
+    border-color 0.45s var(--ease-out),
+    transform 0.45s var(--ease-out);
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: var(--limestone);
+}
+.btn-primary:hover {
+  background: var(--navy-deep);
+  transform: translateY(-2px);
+}
+
+.btn-outline-light {
+  background: transparent;
+  color: var(--limestone);
+  border-color: rgba(231, 216, 198, 0.45);
+}
+.btn-outline-light:hover {
+  border-color: var(--limestone);
+  background: rgba(231, 216, 198, 0.08);
+}
+
+.btn-secondary {
+  background: var(--mist);
+  color: var(--navy);
+  border-color: var(--navy);
+}
+.btn-secondary:hover {
+  background: var(--navy);
+  color: var(--limestone);
+}
+
+.btn-accent {
+  background: transparent;
+  color: var(--brass);
+  border-color: var(--brass);
+}
+.btn-accent:hover {
+  background: var(--brass);
+  color: var(--white);
+}
+
+.btn-text {
+  background: transparent;
+  border: none;
+  color: var(--navy);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  padding: 0 0 4px;
+  border-bottom: 1px solid var(--brass);
+  border-radius: 0;
+}
+
+.btn .btn-arrow {
+  transition: transform 0.45s var(--ease-out);
+}
+.btn:hover .btn-arrow {
+  transform: translateX(5px);
+}
+
+/* ============================================================
+   REVEAL SYSTEM (GSAP hooks — initial states)
+   ============================================================ */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(36px);
+  will-change: opacity, transform;
+}
+[data-reveal-line] .line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.22em;
+  margin-bottom: -0.22em;
+}
+[data-reveal-line] .line-inner {
+  display: block;
+  transform: translateY(112%);
+  will-change: transform;
+}
+[data-reveal-fade] {
+  opacity: 0;
+  will-change: opacity;
+}
+[data-reveal-scale] {
+  opacity: 0;
+  transform: scale(1.05);
+  will-change: opacity, transform;
+}
+[data-draw] {
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.js-off [data-reveal],
+.js-off [data-reveal-fade],
+.js-off [data-reveal-scale] {
+  opacity: 1;
+  transform: none;
+}
+.js-off [data-reveal-line] .line-inner {
+  transform: none;
+}
+.js-off [data-draw] {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal-fade],
+  [data-reveal-scale] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-reveal-line] .line-inner {
+    transform: none !important;
+  }
+  [data-draw] {
+    transform: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   IMAGE FRAME (parallax wrapper)
+   ============================================================ */
+
+.frame {
+  overflow: hidden;
+  position: relative;
+  border-radius: 6px;
+}
+.frame > img,
+.frame > video,
+.frame > picture,
+.frame > picture > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.frame > picture {
+  display: block;
+}
+.frame img[data-parallax] {
+  will-change: transform;
+  scale: 1.15;
+}
+
+.caption {
+  font-size: 0.6875rem;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-top: var(--s3);
+}
