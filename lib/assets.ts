@@ -6,7 +6,7 @@ const CURRENT = "https://amaya-senior-living.vercel.app";
 const LAYAN = "https://amaya-layan.vercel.app";
 
 export const ASSETS = {
-  heroVideo: `/video/Final_Amaya_Walkthrow.mp4`,
+  heroVideo: `/video/Trees_swaying_in_breeze_202606061630-ezremove.mp4`,
   heroImage: `${CURRENT}/images/HeroImage.webp`,
   locationDesktop: "/location/location_desktop_965×1060.webp",
   locationMobile: "/location/location_mobile_690×515.webp",
