@@ -30,8 +30,11 @@ export default function Hero() {
           playsInline
           preload="auto"
           // poster={ASSETS.heroImage}
-          src={ASSETS.heroVideo}
-        />
+        >
+          <source media="(max-width: 820px)" src={ASSETS.heroVideoMobile} type="video/mp4" />
+          <source src={ASSETS.heroVideoDesktop} type="video/mp4" />
+        </video>
+        <div className="hero-tint" />
         <div className="hero-scrim" />
       </div>
 
