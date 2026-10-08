@@ -2,6 +2,7 @@ import { NextResponse, after } from "next/server";
 import { getLeadsCollection } from "@/lib/mongodb";
 import { isValidEmail, isValidPhone } from "@/lib/validation";
 import { sendLeadNotification } from "@/lib/email";
+import { sendLeadToCrm } from "@/lib/crmLead";
 import { scoreLead } from "@/lib/leadScoring";
 
 function str(v: unknown): string {
@@ -98,6 +99,25 @@ export async function POST(req: Request) {
       visitTime: visitTime || undefined,
     }).catch((err) => {
       console.error("[chat-lead] Failed to send lead notification email:", err);
+    });
+
+    const messageParts = [
+      "Lead captured by website chatbot",
+      purpose && `Purpose: ${purpose}`,
+      residence && `Residence: ${residence}`,
+      budget && `Budget: ${budget}`,
+      city && `City: ${city}`,
+      timeline && `Timeline: ${timeline}`,
+      visitDate && `Preferred visit: ${visitDate}${visitTime ? ` ${visitTime}` : ""}`,
+    ].filter(Boolean);
+
+    sendLeadToCrm({
+      name,
+      phone: digits,
+      email,
+      message: messageParts.join(" | "),
+    }).catch((err) => {
+      console.error("[chat-lead] Failed to push lead to CRM:", err);
     });
   });
 
