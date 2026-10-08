@@ -2,6 +2,7 @@ import { NextResponse, after } from "next/server";
 import { getLeadsCollection } from "@/lib/mongodb";
 import { isValidEmail, isValidPhone } from "@/lib/validation";
 import { sendLeadNotification } from "@/lib/email";
+import { sendLeadToCrm } from "@/lib/crmLead";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
@@ -42,6 +43,14 @@ export async function POST(req: Request) {
   after(() => {
     sendLeadNotification({ name, email, phone: digits, preferredDate: date }).catch((err) => {
       console.error("[book-visit] Failed to send lead notification email:", err);
+    });
+    sendLeadToCrm({
+      name,
+      phone: digits,
+      email,
+      message: `Book a Visit request — preferred date ${date}`,
+    }).catch((err) => {
+      console.error("[book-visit] Failed to push lead to CRM:", err);
     });
   });
 
