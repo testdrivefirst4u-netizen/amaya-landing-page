@@ -94,6 +94,18 @@ export default function RootLayout({
             gtag('config', 'AW-18403926863');
           `}
         </Script>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18371977828"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag-2" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18371977828');
+          `}
+        </Script>
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
